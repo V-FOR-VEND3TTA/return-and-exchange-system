@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <h2>Your Orders</h2>
+        <ul>
+            {% for order in orders %}
+                <li>
+                    <strong>Order Number:</strong> {{ order.order_number }} <br>
+                    <strong>Order Date:</strong> {{ order.order_date }} <br>
+                    <strong>Total Amount:</strong> ${{ order.total_amount }} <br>
+                    <strong>Items:</strong>
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.product_name }} - ${{ item.price }} x {{ item.quantity }} 
+                            <a href="{% url 'return_exchange_request' item.id %}">Request Return/Exchange</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
