@@ -1,0 +1,24 @@
+<!-- templates/404.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page you are looking for does not exist.</p>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">Go to Dashboard</a>
+        <a class="btn btn-secondary" href="{% url 'login' %}">Login</a>
+    </div>
+</body>
+</html>
