@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login, authenticate, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, LoginForm, ReturnExchangeForm
-from .models import Order, ReturnExchangeRequest, OrderItem
+from .models import Order, OrderItem, ReturnExchangeRequest
 
 def signup(request):
     if request.method == 'POST':
@@ -32,13 +32,25 @@ def user_login(request):
     return render(request, 'returns_exchanges/login.html', {'form': form})
 
 @login_required
+def user_logout(request):
+    auth_logout(request)
+    return redirect('login')
+
+@login_required
 def dashboard(request):
     orders = Order.objects.filter(user=request.user)
-    return render(request, 'returns_exchanges/dashboard.html', {'orders': orders})
+    return_requests = ReturnExchangeRequest.objects.filter(order_item__order__user=request.user)
+    return_exchange_form = ReturnExchangeForm()
+    context = {
+        'orders': orders,
+        'return_requests': return_requests,
+        'return_exchange_form': return_exchange_form,
+    }
+    return render(request, 'returns_exchanges/dashboard.html', context)
 
 @login_required
 def return_exchange_request(request, item_id):
-    order_item = OrderItem.objects.get(id=item_id)
+    order_item = get_object_or_404(OrderItem, id=item_id)
     if request.method == 'POST':
         form = ReturnExchangeForm(request.POST)
         if form.is_valid():
