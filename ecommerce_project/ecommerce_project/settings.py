@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # custom installed apps
     'returns_exchanges',
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [
